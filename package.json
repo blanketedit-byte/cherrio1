@@ -1,0 +1,17 @@
+{
+  "name": "cherri-proxy",
+  "version": "1.0.0",
+  "description": "cherri — server-side proxy, strips X-Frame-Options and rewrites URLs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

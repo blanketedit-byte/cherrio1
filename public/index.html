@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>cherri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0d0d10;
+      --surface:  #16161b;
+      --border:   #2a2a35;
+      --accent:   #e8427c;
+      --accent2:  #b83a6a;
+      --text:     #f0eef5;
+      --muted:    #7a7888;
+      --input-bg: #1c1c24;
+    }
+
+    html, body { height: 100%; background: var(--bg); color: var(--text);
+      font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* ── LANDING ── */
+    #landing {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2rem 1.25rem;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    .logo { font-family: 'Space Grotesk', sans-serif; font-size: 2.6rem;
+      font-weight: 600; letter-spacing: -0.04em; margin-bottom: 0.3rem; }
+    .logo span { color: var(--accent); }
+
+    .tagline { font-size: 0.85rem; color: var(--muted); margin-bottom: 2.8rem;
+      letter-spacing: 0.02em; }
+
+    .search-wrap { width: 100%; max-width: 540px; position: relative; }
+
+    .search-wrap input {
+      width: 100%; height: 54px;
+      background: var(--input-bg); border: 1.5px solid var(--border);
+      border-radius: 999px; padding: 0 6rem 0 1.5rem;
+      font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--text);
+      outline: none; transition: border-color 0.15s;
+    }
+    .search-wrap input::placeholder { color: var(--muted); }
+    .search-wrap input:focus { border-color: var(--accent); }
+
+    .search-wrap button {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      height: 42px; padding: 0 1.2rem; background: var(--accent); border: none;
+      border-radius: 999px; color: #fff; font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem; font-weight: 500; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .search-wrap button:hover { background: var(--accent2); }
+
+    .quick-links { display: flex; flex-wrap: wrap; gap: 0.5rem;
+      justify-content: center; margin-top: 1.5rem; max-width: 540px; }
+
+    .quick-links a {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.38rem 0.9rem; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 999px;
+      font-size: 0.78rem; color: var(--muted); text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif; cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .quick-links a:hover { border-color: var(--accent); color: var(--text); }
+    .quick-links a .dot { width: 7px; height: 7px; border-radius: 50%;
+      background: var(--accent); opacity: 0.7; flex-shrink: 0; }
+
+    .footer-note { position: fixed;
+      bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+      left: 50%; transform: translateX(-50%);
+      font-size: 0.72rem; color: var(--muted); opacity: 0.55; white-space: nowrap; }
+
+    /* ── PROXY VIEW ── */
+    #proxy-view { display: none; flex-direction: column; height: 100vh; height: 100dvh; }
+    #proxy-view.active { display: flex; }
+
+    .topbar {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.6rem 1rem;
+      padding-top: calc(0.6rem + env(safe-area-inset-top, 0px));
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .topbar-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem;
+      font-weight: 600; color: var(--accent); cursor: pointer; flex-shrink: 0; }
+
+    .topbar-input-wrap { flex: 1; position: relative; }
+
+    .topbar-input-wrap input {
+      width: 100%; height: 36px; background: var(--input-bg);
+      border: 1.5px solid var(--border); border-radius: 999px;
+      padding: 0 3.6rem 0 1rem; font-size: 0.82rem; color: var(--text);
+      font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.15s;
+    }
+    .topbar-input-wrap input:focus { border-color: var(--accent); }
+    .topbar-input-wrap input::placeholder { color: var(--muted); }
+
+    .topbar-go {
+      position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+      height: 28px; padding: 0 0.75rem; background: var(--accent); border: none;
+      border-radius: 999px; color: #fff; font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem; font-weight: 500; cursor: pointer;
+    }
+    .topbar-go:hover { background: var(--accent2); }
+
+    .topbar-back {
+      flex-shrink: 0; width: 30px; height: 30px; background: var(--input-bg);
+      border: 1px solid var(--border); border-radius: 50%; color: var(--muted);
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .topbar-back:hover { color: var(--text); border-color: var(--accent); }
+
+    /* loading bar */
+    .load-bar {
+      height: 2px; background: var(--border); flex-shrink: 0; position: relative; overflow: hidden;
+    }
+    .load-bar.running::after {
+      content: ''; position: absolute; top: 0; left: -40%;
+      width: 40%; height: 100%; background: var(--accent);
+      animation: loadslide 1s ease-in-out infinite;
+    }
+    @keyframes loadslide { to { left: 110%; } }
+
+    .proxy-wrap { flex: 1; position: relative; display: flex; flex-direction: column; }
+
+    #proxy-frame { flex: 1; width: 100%; border: none; background: #fff; }
+
+    @media (max-width: 480px) { .logo { font-size: 2rem; } }
+  </style>
+</head>
+<body>
+
+  <!-- LANDING -->
+  <div id="landing">
+    <div class="logo">cherr<span>i</span></div>
+    <p class="tagline">browse freely</p>
+
+    <div class="search-wrap">
+      <input id="main-input" type="text"
+        placeholder="enter a URL or search..."
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+      <button onclick="go()">go</button>
+    </div>
+
+    <div class="quick-links">
+      <a onclick="loadURL('https://www.youtube.com')"><span class="dot"></span>YouTube</a>
+      <a onclick="loadURL('https://www.reddit.com')"><span class="dot"></span>Reddit</a>
+      <a onclick="loadURL('https://discord.com/app')"><span class="dot"></span>Discord</a>
+      <a onclick="loadURL('https://www.twitch.tv')"><span class="dot"></span>Twitch</a>
+      <a onclick="loadURL('https://www.roblox.com')"><span class="dot"></span>Roblox</a>
+      <a onclick="loadURL('https://open.spotify.com')"><span class="dot"></span>Spotify</a>
+      <a onclick="loadURL('https://www.netflix.com')"><span class="dot"></span>Netflix</a>
+      <a onclick="loadURL('https://twitter.com')"><span class="dot"></span>Twitter</a>
+    </div>
+
+    <p class="footer-note">cherri — private browsing tool</p>
+  </div>
+
+  <!-- PROXY VIEW -->
+  <div id="proxy-view">
+    <div class="topbar">
+      <div class="topbar-back" onclick="goHome()">⌂</div>
+      <div class="topbar-logo" onclick="goHome()">cherri</div>
+      <div class="topbar-input-wrap">
+        <input id="top-input" type="text" placeholder="enter URL..."
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+        <button class="topbar-go" onclick="goFromTop()">go</button>
+      </div>
+    </div>
+    <div class="load-bar" id="load-bar"></div>
+    <div class="proxy-wrap">
+      <iframe id="proxy-frame"
+        sandbox="allow-forms allow-modals allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+        allow="autoplay; fullscreen; encrypted-media"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </div>
+  </div>
+
+  <script>
+    function normalizeURL(raw) {
+      raw = raw.trim();
+      if (!raw) return null;
+      if (!raw.includes('.') || raw.includes(' ')) {
+        return 'https://www.google.com/search?q=' + encodeURIComponent(raw);
+      }
+      if (!/^https?:\/\//i.test(raw)) raw = 'https://' + raw;
+      try { new URL(raw); return raw; } catch { return null; }
+    }
+
+    function go() {
+      const url = normalizeURL(document.getElementById('main-input').value);
+      if (url) loadURL(url);
+    }
+
+    function goFromTop() {
+      const raw = document.getElementById('top-input').value;
+      // if it's already a /proxy?url= path, extract and re-navigate
+      const match = raw.match(/\/proxy\?url=(.+)/);
+      const url = match
+        ? normalizeURL(decodeURIComponent(match[1]))
+        : normalizeURL(raw);
+      if (url) loadURL(url);
+    }
+
+    function loadURL(url) {
+      document.getElementById('landing').style.display = 'none';
+      const pv = document.getElementById('proxy-view');
+      pv.classList.add('active');
+
+      // show URL in top bar (clean, not the /proxy path)
+      document.getElementById('top-input').value = url;
+
+      const bar   = document.getElementById('load-bar');
+      const frame = document.getElementById('proxy-frame');
+
+      bar.classList.add('running');
+
+      // Route through our server-side proxy
+      frame.src = '/proxy?url=' + encodeURIComponent(url);
+
+      frame.onload = () => bar.classList.remove('running');
+    }
+
+    function goHome() {
+      document.getElementById('proxy-view').classList.remove('active');
+      document.getElementById('landing').style.display = '';
+      document.getElementById('proxy-frame').src = 'about:blank';
+      document.getElementById('main-input').value = '';
+    }
+
+    document.getElementById('main-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') go();
+    });
+    document.getElementById('top-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') goFromTop();
+    });
+  </script>
+</body>
+</html>
